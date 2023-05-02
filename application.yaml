@@ -14,11 +14,26 @@ spring:
       ddl-auto: update
     show-sql: true
 
+bot:
+  userAgent: VitSearchBot
+  referrer: https://ya.ru/
+  timeout: 30000
+
 indexing-settings:
   sites:
-    - url: https://www.lenta.ru
-      name: Лента.ру
-    - url: https://www.skillbox.ru
-      name: Skillbox
-    - url: https://www.playback.ru
+    - url: https://volochek.life/
+      name: Вышний Волочёк
+    - url: https://www.svetlovka.ru/
+      name: Светловка
+    - url: https://www.playback.ru/
       name: PlayBack.Ru
+
+
+#    - url: https://www.lenta.ru/
+#      name: Лента.ру
+#    - url: https://skillbox.ru/
+#      name: Skillbox
+#    - url: https://nikoartgallery.com/
+#      name: Niko
+#    - url: https://et-cetera.ru/mobile/
+#      name: Театр
