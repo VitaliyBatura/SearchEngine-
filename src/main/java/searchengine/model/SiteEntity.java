@@ -17,7 +17,6 @@ public class SiteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     Long id;
 
     @Column(columnDefinition = "ENUM('INDEXING', 'INDEXED', 'FAILED')", nullable = false)
@@ -41,10 +40,13 @@ public class SiteEntity {
     @OneToMany(mappedBy = "site", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<PageEntity> pages;
 
+    @OneToMany(mappedBy = "site", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<LemmaEntity> lemmas;
+
     public SiteEntity(String name, String url, Status status, String lastError) {
         this.name = name;
         this.url = url;
         this.status = status;
-        this.lastError = "";
+        this.lastError = lastError;
     }
 }

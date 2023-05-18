@@ -17,7 +17,9 @@ import java.io.IOException;
 public class SearchBot {
 
     private String userAgent;
+
     private String referrer;
+
     private Integer timeout;
 
     public Document getJsoupDocument(String url) throws IOException {

@@ -1,4 +1,4 @@
-package searchengine.services;
+package searchengine.services.indexing;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.UnsupportedMimeTypeException;
@@ -9,6 +9,10 @@ import searchengine.dto.indexing.SiteData;
 import searchengine.model.PageEntity;
 import searchengine.model.SiteEntity;
 import searchengine.model.Status;
+import searchengine.services.IndexingServiceImpl;
+import searchengine.services.JsoupUtil;
+import searchengine.services.LemmaFinder;
+
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,31 +29,35 @@ public class SiteIndexingTask extends AbstractIndexingTask {
     private final SiteEntity site;
     private final SiteData siteData;
     private final Set<String> runningUrls;
-    private final String urlHost;
+    private final String uriHost;
     private final AtomicBoolean run;
     private final URL url;
+    private final LemmaFinder lemmaFinder;
 
-    public SiteIndexingTask(SiteData siteData, SiteEntity site, SearchBot searchBot, IndexingServiceImpl indexingService) {
+    public SiteIndexingTask(SiteData siteData, SiteEntity site, SearchBot searchBot,
+                            IndexingServiceImpl indexingService, LemmaFinder lemmaFinder) {
         this.siteData = siteData;
         this.url = siteData.getUrl();
-        String urlHost = this.url.getHost();
-        this.urlHost = urlHost.startsWith("www.") ? urlHost.substring(4) : urlHost;
+        String uriHost = this.url.getHost();
+        this.uriHost = uriHost.startsWith("www.") ? uriHost.substring(4) : uriHost;
         this.indexingService = indexingService;
         this.searchBot = searchBot;
         this.site = site;
         this.runningUrls = new CopyOnWriteArraySet<>();
         this.run = new AtomicBoolean(true);
+        this.lemmaFinder = lemmaFinder;
     }
 
     private SiteIndexingTask(URL url, SiteIndexingTask siteIndexingTask) {
         this.siteData = siteIndexingTask.siteData;
         this.url = url;
-        this.urlHost = siteIndexingTask.urlHost;
+        this.uriHost = siteIndexingTask.uriHost;
         this.indexingService = siteIndexingTask.indexingService;
         this.searchBot = siteIndexingTask.searchBot;
         this.site = siteIndexingTask.site;
         this.runningUrls = siteIndexingTask.runningUrls;
         this.run = siteIndexingTask.run;
+        this.lemmaFinder = siteIndexingTask.lemmaFinder;
     }
 
     @Override
@@ -68,6 +76,10 @@ public class SiteIndexingTask extends AbstractIndexingTask {
             return true;
         } else if (!run.get()) {
             return false;
+        }
+        UrlType uriType = validateUrl();
+        if (!(uriType == UrlType.SITE_PAGE)) {
+            return true;
         }
         if (url.toString().startsWith(site.getUrl()) && !url.toString().endsWith(".pdf")) {
             PageEntity page = new PageEntity();
@@ -96,10 +108,26 @@ public class SiteIndexingTask extends AbstractIndexingTask {
                 indexingService.saveSite(site);
                 return false;
             }
+            Map<String, Integer> lemmas = lemmaFinder.collectLemmas(JsoupUtil.documentContentSelector(document).text());
+            synchronized (SiteIndexingTask.class) {
+                indexingService.saveLemmasIndexes(page, lemmas);
+            }
             List<SiteIndexingTask> taskList = walkSiteLinks(document);
             return taskList.stream().allMatch(ForkJoinTask::join);
         }
         return true;
+    }
+
+    private UrlType validateUrl() {
+        if (!(url.getHost().equals(uriHost) || url.getHost().endsWith(".".concat(uriHost)))) {
+            return UrlType.OTHER_SITE;
+        } else if (url.getPath().contains(".") && !url.getPath().endsWith(".html")) {
+            return UrlType.SITE_FILE;
+        } else if (indexingService.isPageExistByPath(url.toString())) {
+            return UrlType.PAGE_IN_TABLE;
+        } else {
+            return UrlType.SITE_PAGE;
+        }
     }
 
     private List<SiteIndexingTask> walkSiteLinks(Document document) {

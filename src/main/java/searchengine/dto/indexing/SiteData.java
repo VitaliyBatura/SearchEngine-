@@ -6,7 +6,9 @@ import java.net.URL;
 
 @Data
 public class SiteData {
+
     String name;
+
     URL url;
 }
 

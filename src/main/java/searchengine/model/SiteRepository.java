@@ -9,4 +9,8 @@ public interface SiteRepository extends JpaRepository<SiteEntity, Long> {
 
     @Transactional
     void deleteAllByName(String name);
+
+    SiteEntity findByName(String name);
+
+    SiteEntity findByUrlEquals(String url);
 }

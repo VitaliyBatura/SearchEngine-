@@ -19,14 +19,17 @@ bot:
   referrer: https://ya.ru/
   timeout: 30000
 
+search-settings:
+  snippet-length: 200
+
 indexing-settings:
   sites:
-    - url: https://volochek.life/
-      name: Вышний Волочёк
     - url: https://www.svetlovka.ru/
       name: Светловка
     - url: https://www.playback.ru/
       name: PlayBack.Ru
+    - url: https://ipfran.ru/
+      name: ИПФ РАН
 
 
 #    - url: https://www.lenta.ru/
@@ -37,3 +40,5 @@ indexing-settings:
 #      name: Niko
 #    - url: https://et-cetera.ru/mobile/
 #      name: Театр
+#    - url: https://volochek.life/
+#      name: Вышний Волочёк
