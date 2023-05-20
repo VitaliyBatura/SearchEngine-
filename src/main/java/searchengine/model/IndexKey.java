@@ -13,8 +13,8 @@ import java.io.Serializable;
 public class IndexKey implements Serializable {
 
     @Column(name = "page_id")
-    Long pageId;
+    private Long pageId;
 
     @Column(name = "lemma_id")
-    Long lemmaId;
+    private Long lemmaId;
 }

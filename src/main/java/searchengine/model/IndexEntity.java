@@ -15,18 +15,18 @@ public class IndexEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_id", nullable = false)
-    PageEntity page;
+    private PageEntity page;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lemma_id", nullable = false)
-    LemmaEntity lemma;
+    private LemmaEntity lemma;
 
     @Column(name = "`rank`", nullable = false)
-    Float rank;
+    private Float rank;
 
     public IndexEntity(PageEntity page, LemmaEntity lemma, Float rank) {
         this.page = page;

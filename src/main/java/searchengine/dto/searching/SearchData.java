@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SearchData {
 
-    Float relevance;
+    private Float relevance;
 
     private String site;
 

@@ -7,8 +7,8 @@ import java.net.URL;
 @Data
 public class SiteData {
 
-    String name;
+    private String name;
 
-    URL url;
+    private URL url;
 }
 

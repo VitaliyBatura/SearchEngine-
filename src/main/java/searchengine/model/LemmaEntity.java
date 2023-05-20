@@ -16,20 +16,20 @@ public class LemmaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_id", nullable = false)
-    SiteEntity site;
+    private SiteEntity site;
 
     @Column(columnDefinition = "VARCHAR(255)", nullable = false)
-    String lemma;
+    private String lemma;
 
     @Column(nullable = false)
-    Integer frequency;
+    private Integer frequency;
 
     @OneToMany(mappedBy = "lemma", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<IndexEntity> indexes;
+    private List<IndexEntity> indexes;
 
     public LemmaEntity(SiteEntity site, String lemma, Integer frequency) {
         this.site = site;
