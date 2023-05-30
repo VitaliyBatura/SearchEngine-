@@ -66,8 +66,7 @@ public class SearchingServiceImpl implements SearchingService {
                 SearchData searchData = new SearchData();
                 searchData.setSite(site.getUrl());
                 searchData.setSiteName(site.getName());
-                searchData.setUri(page.getPath().length() > site.getUrl().length() ?
-                        page.getPath().substring(site.getUrl().length()) : page.getPath());
+                searchData.setUri(page.getPath().substring(1));
                 searchData.setTitle(document.title());
                 searchData.setSnippet(snippetParser.getSnippet());
                 float relevance = indexRepository.findAllByPageAndLemmaIn(page, lemmas).stream()
