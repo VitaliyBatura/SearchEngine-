@@ -1,4 +1,4 @@
-package searchengine.services;
+package searchengine.services.searching;
 
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import searchengine.dto.searching.SearchData;
 import searchengine.dto.searching.SearchingResponse;
 import searchengine.model.*;
-import searchengine.services.searching.SnippetParser;
+import searchengine.model.repositories.IndexRepository;
+import searchengine.model.repositories.LemmaRepository;
+import searchengine.model.repositories.SiteRepository;
+import searchengine.services.LemmaFinder;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;

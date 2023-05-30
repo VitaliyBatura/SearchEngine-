@@ -1,4 +1,4 @@
-package searchengine.services;
+package searchengine.services.indexing;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -10,9 +10,11 @@ import searchengine.config.SitesList;
 import searchengine.dto.indexing.IndexingResponse;
 import searchengine.dto.indexing.SiteData;
 import searchengine.model.*;
-import searchengine.services.indexing.AbstractIndexingTask;
-import searchengine.services.indexing.PageIndexingTask;
-import searchengine.services.indexing.SiteIndexingTask;
+import searchengine.model.repositories.IndexRepository;
+import searchengine.model.repositories.LemmaRepository;
+import searchengine.model.repositories.PageRepository;
+import searchengine.model.repositories.SiteRepository;
+import searchengine.services.LemmaFinder;
 
 import java.net.MalformedURLException;
 import java.net.URL;

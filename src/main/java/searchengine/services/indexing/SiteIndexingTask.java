@@ -9,7 +9,6 @@ import searchengine.dto.indexing.SiteData;
 import searchengine.model.PageEntity;
 import searchengine.model.SiteEntity;
 import searchengine.model.Status;
-import searchengine.services.IndexingServiceImpl;
 import searchengine.services.JsoupUtil;
 import searchengine.services.LemmaFinder;
 
