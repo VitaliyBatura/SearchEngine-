@@ -86,8 +86,8 @@ public class SearchingServiceImpl implements SearchingService {
         return new ArrayList<>(searchDataTreeSet);
     }
 
-    private <T> List<T> pageOfList(List<T> searchDataList, Integer offset, Integer limit) {
-        PagedListHolder<T> pages = new PagedListHolder<>(searchDataList);
+    private List<SearchData> pageOfList(List<SearchData> searchDataList, Integer offset, Integer limit) {
+        PagedListHolder<SearchData> pages = new PagedListHolder<>(searchDataList);
         pages.setPageSize(limit);
         pages.setPage(offset);
         return pages.getPageList();
